@@ -1,0 +1,28 @@
+mytime := Realtime();  
+p := 101;
+a := 3;
+b := 4;
+Fp := FiniteField(p);
+//Fp_ := SetToIndexedSet(Set(Fp));
+
+// Если кривая сингулярна, то это плохая кривая
+if (4*(a^3) + 27*(b^2)) eq 0 then
+		print "Singularity!!!"; 
+else
+	// Составим список точек на кривой
+	//x_2 := Fp_[2];
+    n := 1;
+	for x_2 in Fp do
+		y_2 := (x_2) ^ 3 + a * (x_2) + b;
+		if IsSquare(y_2) eq true then
+            Sq := Sqrt(y_2);
+			n +:= 1;
+			if -Sq ne 0 then
+			    n +:= 1;
+			end if;
+		end if;
+	end for;
+	n;
+	Realtime(mytime);
+end if;
+

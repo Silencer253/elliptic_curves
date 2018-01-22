@@ -1,0 +1,34 @@
+p := 101;
+Zp := Set(Integers(p));
+a := Zp ! 3; // Берём из Zp тройку (элемент 3)
+b := Zp ! 4;
+x1 := Zp ! 95;
+y1 := Zp ! 100;
+if (x1^3 + a * x1 + b) eq y1^2 then
+    print "Point1 in Curve!";
+else
+    print "Point1 NOT in Curve!";
+end if;
+x2 := Zp ! 54;
+y2 := Zp ! 80;
+if (x2^3 + a * x2 + b) eq y2^2 then
+    print "Point2 in Curve!";
+else
+    print "Point2 NOT in Curve!";
+end if;
+if (x1 eq x2) and (y1 eq y2) then
+    lambda := (3 * (x1^2) + a) * ((2 * y1) ^ (-1));
+else
+    lambda := (y1 - y2) * ((x1 - x2) ^ (-1));
+end if;
+lambda;
+x3 := lambda^2 - x1 - x2;
+y3 := - (lambda * (x3 - x1) + y1);
+print "x3 = ", x3;
+print "y3 = ", y3;
+
+if (x3^3 + a * x3 + b) eq y3^2 then
+    print "Point3 in Curve!";
+else
+    print "Point3 NOT in Curve!";
+end if;

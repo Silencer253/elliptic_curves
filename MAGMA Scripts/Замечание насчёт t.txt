@@ -1,0 +1,11 @@
+|M1 - (p+1)| <= 2 * sqrt(p) 	->
+-2 * sqrt(p) + p + 1 <= M1 <= 2 * sqrt(p) + p + 1
+-2 * sqrt(p)  < t < 2 * sqrt(p) -> 
+|t| < 2 * sqrt(p)  				->
+t^2 < 4 * p    m = Пl > 4 * sqrt(p)
+4 * sqrt(p) < m    				-> 
+2 * sqrt(p) < m/2  				->
+|t| < m/2   					-> 
+ -m/2 < t < m/2  (m-1)
+ 
+Если t > m/2 (2t > m), то t := t - m, если t < -m/2 (2t < -m), то t := t + m

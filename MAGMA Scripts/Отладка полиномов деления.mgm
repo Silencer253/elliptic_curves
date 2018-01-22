@@ -1,0 +1,91 @@
+t := []; 
+mytime := Realtime();    
+p := 16769023;                 // p := 2^255 - 19;
+//p := 115792089210356248762697446949407573530086143415290314195533631308867097853951;
+Fp := FiniteField(p);
+//Fp_ := SetToIndexedSet(Set(Fp));
+R<x>:=PolynomialRing(Fp);
+//a := -3;
+a := 1;
+//b := 41058363725152142129326129780047268409114441015993725554835256314039467401291;
+b := 3;
+f := elt< R | b, a, 0, 1 >; // = Y^2
+f_2 := f * f;
+
+// Первый пункт алгоритма Шуфа
+g1 := Modexp(x, p, f) - x;
+g := [f, g1];
+i0 := 1;
+i1 := 2;
+i2 := 3;
+k := 1;
+i := 0;
+while g[i1] ne 0 do
+    g[i2] := (g[i0])mod g[i1];
+    k := i0;
+    i0 := i1;
+    i1 := i2;
+    i2 := k;
+end while;
+g[i0];
+if Degree(g[i0]) ne 0 then
+    t[1] := 0;
+    print "t[1]:", t[1];
+else
+    t[1] := 1;
+    print "t[1]:", t[1];
+end if;
+
+
+// Вычисляем L
+l := 2;
+mass_l := [];
+mass_l[1] := l; 
+product_of_a_sequence := l;
+lower_bound := 4 * (p ^ (1/2));
+i := 2;
+while product_of_a_sequence le lower_bound do
+    l := NextPrime(l);
+    mass_l[i] := l; 
+    product_of_a_sequence := product_of_a_sequence * l;
+    i +:= 1;
+end while;
+L := l;
+print "L = ", L;
+length_mass_l := i - 1;
+
+// Вычисляем полиномы деления
+psy := [];
+shift := 1;
+psy[1] := elt< R | 0 >;
+print "psy[", 0, "]", psy[1];
+psy[2] := elt< R | 1 >;
+print "psy[", 1, "]", psy[2];
+psy[3] := elt< R | 2 >;
+print "psy[", 2, "]", psy[3];
+psy[4] := elt< R | -(a^2), 12*b, 6*a, 0, 3 >;
+print "psy[", 3, "]", psy[4];
+psy[5] := elt< R | -32*b*b-4*a*a*a, -16*a*b, -20*a*a, 80*b, 20*a, 0, 4 >;
+print "psy[", 4, "]", psy[5], "\n";
+n := 2;
+L_2 := L + 2;
+while 0 eq 0 do
+	psy_1 := psy[n+2] * psy[n+2];
+	psy_2 := psy[n+3] * psy[n+1];
+	n_2 := 2 * n;
+	psy[n_2+shift] := (psy_2 * psy[n] * psy[n] - psy[n+1] * psy[n-1] * psy_1) / 2;
+        print "psy[", n_2, "]", psy[n_2+shift];
+	if (n_2 + 1) eq L_2 then
+		break;
+	end if;
+	if ((n+1) mod 2) eq 1 then
+		psy[n_2+1+shift] := f_2 * (psy[n+3] * psy[n+1] * psy[n+1] * psy[n+1]) - psy_1 * psy[n+2] * psy[n];
+	else
+		psy[n_2+1+shift] := psy_2 * psy[n+1] * psy[n+1] - (psy_1 * psy[n+2] * psy[n]) * f_2;
+	end if;
+        print "psy[", n_2+1, "]", psy[n_2+1+shift];
+	if (n_2 + 2) eq L_2 then
+		break;
+	end if;
+	n +:= 1;
+end while;
