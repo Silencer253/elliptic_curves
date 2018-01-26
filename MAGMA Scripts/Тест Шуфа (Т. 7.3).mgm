@@ -149,11 +149,10 @@ while ii ne 0 do
 				// y_1 == y_2 != 0
 				else
 					a1 := 3 * (N_1 ^ 2) + a;
-					M_1_2 := 2 * M_1;
-					a2 := M_1_2 ^ 2;
-					N_4 := (D_2 * ((a1 ^ 2) - N_1 * a2) - N_2 * a2) mod psy[mass_l[i]+shift];
-					D_4 := (a2 * D_2) mod psy[mass_l[i]+shift];
-					C_4 := (M_1_2 * D_4) mod psy[mass_l[i]+shift];
+					a2 := 4 * (M_1 ^ 2);
+					N_4 := (D_2 * ((a1 ^ 2) - N_1 * f * a2) - N_2 * f * a2) mod psy[mass_l[i]+shift];
+					D_4 := (a2 * f * D_2) mod psy[mass_l[i]+shift];
+					C_4 := (2 * M_1 * f * D_4) mod psy[mass_l[i]+shift];
 					M_4 := (- (a1 * (N_4 - N_1 * D_4) + C_4 * M_1)) mod psy[mass_l[i]+shift];
 				end if;
 			// x_1 != x_2

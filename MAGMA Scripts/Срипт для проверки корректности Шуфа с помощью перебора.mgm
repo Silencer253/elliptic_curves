@@ -1,0 +1,58 @@
+/*
+Тестирование корректности алгоритма Шуфа для вычисления порядка эллиптической кривой 
+Скрипт путём простого перебора вычисляет порядок эллиптических кривых и записывает результат в файл output1.txt
+*/
+
+mytime := Realtime();  
+countOfBits := 14;
+p := 2^countOfBits; // С этого простого числа начинается перебор
+ii := 10; // Этой переменной задается кол-во простых чисел, которые мы перебираем 
+while ii ne 0 do  
+	p := NextPrime(p);
+	// Обязательное условие для Т. 7.4 и Т. 7.3
+	if ((p mod 3) ne 2) or ((p mod 4) ne 3) then
+		continue;
+	end if;
+	Fp := FiniteField(p);
+	R<x>:=PolynomialRing(Fp);
+	b := 0;
+	jj := 10; // Этой переменной задается кол-во чисел для параметра b, который мы перебираем
+	while jj ne 0 do
+		a := 0;
+		kk := 10; // Этой переменной задается кол-во чисел для параметра a, который мы перебираем
+		while kk ne 0 do
+			// Если кривая сингулярна, то это плохая кривая
+			if ((4*(a^3) + 27*(b^2)) mod p) eq 0 then
+				a +:= 1;
+				continue;
+			else
+				f := elt< R | b, a, 0, 1 >; // = Y^2
+				// Составим список точек на кривой
+				n := 1;
+				for x_2 in Fp do
+					y_2 := (x_2) ^ 3 + a * (x_2) + b;
+					if IsSquare(y_2) eq true then
+						Sq := Sqrt(y_2);
+						n +:= 1;
+						if -Sq ne 0 then
+							n +:= 1;
+						end if;
+					end if;
+				end for;
+				//f;
+				PrintFile("output1.txt", f);
+				PrintFile("output1.txt", p);
+				//n;
+				PrintFile("output1.txt", n);
+				PrintFile("output1.txt", "");
+			end if;
+			a +:= 1;
+			kk -:= 1;
+		end while;
+		b +:= 1;
+		jj -:= 1;
+	end while;
+	ii -:= 1;
+end while;
+Realtime(mytime);
+;
