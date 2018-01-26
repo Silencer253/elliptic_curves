@@ -22,15 +22,15 @@ Runtime sec:  294.427  min:  4.907
 
 t := []; 
 mytime := Realtime();    
-//p := 16769023;                 // p := 2^255 - 19;
-p := 1452046121366725933991673688168680114377396846591;
+//p := 1452046121366725933991673688168680114377396846591;
+//a := -3;
+//b := 49;
+p := 71;
+a := 9;
+b := 9;
 Fp := FiniteField(p);
 //Fp_ := SetToIndexedSet(Set(Fp)); // Индексация для прямого обращения в элементам поля как к элементам массива (к примеру так: Fp_[2])
-R<x>:=PolynomialRing(Fp);
-a := -3;
-//a := 1;
-b := 49;
-//b := 3;
+R<x> := PolynomialRing(Fp);
 f := elt< R | b, a, 0, 1 >; // = Y^2
 f_2 := f * f;
 
@@ -49,7 +49,7 @@ while g[i1] ne 0 do
     i1 := i2;
     i2 := k;
 end while;
-// g[i0]; // Получившийся НОД
+// Проверяем степень получившегося НОДа 
 if Degree(g[i0]) ne 0 then
     t[1] := 0;
 else
@@ -103,9 +103,12 @@ while 0 eq 0 do
 end while;
 //print "№0", Realtime(mytime);
 
-// Реализация второго пункта алгоритма Шуфа
+// Второй пункт алгоритма Шуфа
 i := 2;
 while i le length_mass_l do  
+	if i eq 3 then
+		print "!!!!!!!!!!";
+	end if;
     p_ := p mod mass_l[i];
 	//print "№1  mass_l[", i, "] = ", mass_l[i], "p_ = ", p_, Realtime(mytime);
     u := Modexp(x, p, psy[mass_l[i]+1]);
@@ -159,12 +162,11 @@ while i le length_mass_l do
         // y_1 == y_2 != 0
         else
             a1 := 3 * (N_1 ^ 2) + a;
-			M_1_2 := 2 * M_1;
-            a2 := M_1_2 ^ 2;
-            N_4 := (D_2 * ((a1 ^ 2) - N_1 * a2) - N_2 * a2) mod psy[mass_l[i]+shift];
-            D_4 := (a2 * D_2) mod psy[mass_l[i]+shift];
-			C_4 := (M_1_2 * D_4) mod psy[mass_l[i]+shift];
-            M_4 := (- (a1 * (N_4 - N_1 * D_4) + C_4 * M_1)) mod psy[mass_l[i]+shift];
+			a2 := 4 * (M_1 ^ 2);
+			N_4 := (D_2 * ((a1 ^ 2) - N_1 * f * a2) - N_2 * f * a2) mod psy[mass_l[i]+shift];
+			D_4 := (a2 * f * D_2) mod psy[mass_l[i]+shift];
+			C_4 := (2 * M_1 * f * D_4) mod psy[mass_l[i]+shift];
+			M_4 := (- (a1 * (N_4 - N_1 * D_4) + C_4 * M_1)) mod psy[mass_l[i]+shift];
         end if;
     // x_1 != x_2
     else
