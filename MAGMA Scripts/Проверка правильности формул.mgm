@@ -1,4 +1,4 @@
-t := [];
+﻿t := [];
 p := 101;
 Fp := FiniteField(p);
 Fp_ := SetToIndexedSet(Set(Fp));

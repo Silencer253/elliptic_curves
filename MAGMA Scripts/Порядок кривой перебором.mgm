@@ -1,4 +1,4 @@
-mytime := Realtime();  
+﻿mytime := Realtime();  
 p := 101;
 a := 3;
 b := 4;
