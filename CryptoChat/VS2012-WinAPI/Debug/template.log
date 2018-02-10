@@ -1,0 +1,31 @@
+﻿Построение начато 10.02.2018 20:31:25.
+     1>Проект "D:\GitHub\elliptic_curves\CryptoChat\VS2012-WinAPI\template.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\CL.exe /c /ID:\Crypto\Include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt EllipticCurve.cpp
+         EllipticCurve.cpp
+     1>d:\github\elliptic_curves\cryptochat\vs2012-winapi\ellipticcurve.cpp(142): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+     1>d:\github\elliptic_curves\cryptochat\vs2012-winapi\ellipticcurve.cpp(823): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 9.0\vc\include\string.h(74): см. объявление 'strcpy'
+     1>d:\github\elliptic_curves\cryptochat\vs2012-winapi\ellipticcurve.cpp(832): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 9.0\vc\include\string.h(74): см. объявление 'strcpy'
+     1>d:\github\elliptic_curves\cryptochat\vs2012-winapi\ellipticcurve.cpp(843): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 9.0\vc\include\string.h(74): см. объявление 'strcpy'
+     1>d:\github\elliptic_curves\cryptochat\vs2012-winapi\ellipticcurve.cpp(852): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 9.0\vc\include\string.h(74): см. объявление 'strcpy'
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\CryptoChat.exe" /INCREMENTAL:NO /NOLOGO Ws2_32.lib cryptopp.lib D:\Crypto++\Win32\Output\Debug\cryptlib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\CryptoChat.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:".\Debug/template1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE:NO /IMPLIB:".\Debug\CryptoChat.lib" /MACHINE:X86 .\Debug\resource.res
+         .\Debug/EllipticCurve.obj
+         .\Debug/ErrorsHandle.obj
+         .\Debug/main.obj
+         .\Debug/Polynom.obj
+         C:\Temp\openssl\lib\libeay32.lib
+         C:\Temp\openssl\lib\ssleay32.lib
+     1>EllipticCurve.obj : warning LNK4075: не учитывается "/EDITANDCONTINUE" из-за спецификации "/INCREMENTAL:NO"
+         template.vcxproj -> D:\GitHub\elliptic_curves\CryptoChat\VS2012-WinAPI\.\Debug\CryptoChat.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe /nologo /verbose /outputresource:".\Debug\CryptoChat.exe;#1" /manifest .\Debug\CryptoChat.exe.intermediate.manifest
+     1>Построение проекта "D:\GitHub\elliptic_curves\CryptoChat\VS2012-WinAPI\template.vcxproj" завершено (целевые объекты Build).
+
+Построение успешно завершено.
+
+Затраченное время: 00:00:01.52

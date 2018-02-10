@@ -1,0 +1,25 @@
+﻿Построение начато 20.09.2017 20:44:48.
+     1>Проект "D:\CHELGU\Curs\CryptoChat_VS2012\CryptoChat_VS2012\template.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc110.pdb" /Gd /TP /analyze- /errorReport:prompt EllipticCurve.cpp Polynom.cpp main.cpp
+         EllipticCurve.cpp
+     1>EllipticCurve.cpp(779): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\string.h(110): см. объявление "strcpy"
+     1>EllipticCurve.cpp(788): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\string.h(110): см. объявление "strcpy"
+     1>EllipticCurve.cpp(799): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\string.h(110): см. объявление "strcpy"
+     1>EllipticCurve.cpp(808): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\string.h(110): см. объявление "strcpy"
+         Polynom.cpp
+     1>Polynom.cpp(26): warning C4172: возвращение адреса локальной или временной переменной
+         main.cpp
+     1>main.cpp(445): warning C4996: 'asctime': This function or variable may be unsafe. Consider using asctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\time.h(153): см. объявление "asctime"
+         Создание кода...
+     1>d:\chelgu\curs\cryptochat_vs2012\cryptochat_vs2012\polynom.cpp(103): error C4716: operator<<: должна возвращать значение
+     1>Построение проекта "D:\CHELGU\Curs\CryptoChat_VS2012\CryptoChat_VS2012\template.vcxproj" завершено (целевые объекты Build) с ошибкой.
+
+Сбой построения.
+
+Затраченное время: 00:00:03.97
