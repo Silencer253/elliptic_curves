@@ -1,0 +1,268 @@
+﻿/*
+Алгоритм Шуфа для вычисления порядка эллиптической кривой
+
+Эллиптическая кривая:
+p := 1452046121366725933991673688168680114377396846591;
+a := -3;
+b := 49;
+
+Первая версия
+1452046121366725933991673146258890104713533720303
+Runtime sec:  300.567  min:  5.009
+
+Текущая версия
+1452046121366725933991673146258890104713533720303
+Runtime sec:  294.427  min:  4.907
+
+Оптимизация на ~2%
+Процессор: Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz 
+
+Строчки вида "print "№...", Realtime(mytime)" используются для определения времени выполнения некоторых ключевых участков кода. Используя регулярные выражения (например в Notepad++), можно комментировать/раскомментировать такие строки сразу все разом.
+*/
+
+t := []; 
+mytime := Realtime();    
+//p := 1452046121366725933991673688168680114377396846591;
+//a := -3;
+//b := 49;
+p := 71;
+a := 9;
+b := 9;
+Fp := FiniteField(p);
+//Fp_ := SetToIndexedSet(Set(Fp)); // Индексация для прямого обращения в элементам поля как к элементам массива (к примеру так: Fp_[2])
+R<x> := PolynomialRing(Fp);
+f := elt< R | b, a, 0, 1 >; // = Y^2
+f_2 := f * f;
+
+// Первый пункт алгоритма Шуфа
+g1 := Modexp(x, p, f) - x;
+g := [f, g1];
+i0 := 1;
+i1 := 2;
+i2 := 3;
+k := 1;
+i := 0;
+while g[i1] ne 0 do
+    g[i2] := (g[i0])mod g[i1];
+    k := i0;
+    i0 := i1;
+    i1 := i2;
+    i2 := k;
+end while;
+// Проверяем степень получившегося НОДа 
+if Degree(g[i0]) ne 0 then
+    t[1] := 0;
+else
+    t[1] := 1;
+end if;
+
+
+// Вычисляем L
+l := 2;
+mass_l := [];
+mass_l[1] := l; 
+product_of_a_sequence := l;
+lower_bound := 4 * (p ^ (1/2));
+i := 2;
+while product_of_a_sequence le lower_bound do
+    l := NextPrime(l);
+    mass_l[i] := l; 
+    product_of_a_sequence := product_of_a_sequence * l;
+    i +:= 1;
+end while;
+L := l;
+length_mass_l := i - 1;
+
+// Вычисляем полиномы деления
+psy := [];
+shift := 1;
+psy[1] := elt< R | 0 >;
+psy[2] := elt< R | 1 >;
+psy[3] := elt< R | 2 >;
+psy[4] := elt< R | -(a^2), 12*b, 6*a, 0, 3 >;
+psy[5] := elt< R | -32*b*b-4*a*a*a, -16*a*b, -20*a*a, 80*b, 20*a, 0, 4 >;
+n := 2;
+L_2 := L + 2;
+while 0 eq 0 do
+	psy_1 := psy[n+2] * psy[n+2];
+	psy_2 := psy[n+3] * psy[n+1];
+	n_2 := 2 * n;
+	psy[n_2+shift] := (psy_2 * psy[n] * psy[n] - psy[n+1] * psy[n-1] * psy_1) / 2;
+	if (n_2 + 1) eq L_2 then
+		break;
+	end if;
+	if ((n+1) mod 2) eq 1 then
+		psy[n_2+1+shift] := f_2 * (psy_2 * psy[n+1] * psy[n+1]) - psy_1 * psy[n+2] * psy[n];
+	else
+		psy[n_2+1+shift] := psy_2 * psy[n+1] * psy[n+1] - (psy_1 * psy[n+2] * psy[n]) * f_2;
+	end if;
+	if (n_2 + 2) eq L_2 then
+		break;
+	end if;
+	n +:= 1;
+end while;
+//print "№0", Realtime(mytime);
+
+// Второй пункт алгоритма Шуфа
+i := 2;
+while i le length_mass_l do  
+	if i eq 3 then
+		print "!!!!!!!!!!";
+	end if;
+    p_ := p mod mass_l[i];
+	//print "№1  mass_l[", i, "] = ", mass_l[i], "p_ = ", p_, Realtime(mytime);
+    u := Modexp(x, p, psy[mass_l[i]+1]);
+    v := Modexp(f, (p - 1) div 2, psy[mass_l[i]+1]);
+    N_0 := u;
+    D_0 := psy[2];
+    M_0 := v;
+    C_0 := psy[2];
+   // print "Point P_0:\nN_0:", N_0, "D_0:", D_0, "M_0:", M_0, "C_0:", C_0, "\n";
+    //print "№2 ", Realtime(mytime);
+    
+    // Считаем P_1
+    N_1 := Modexp(u, p, psy[mass_l[i]+1]);
+    D_1 := psy[2];
+    M_1 := Modexp(v, p+1, psy[mass_l[i]+1]);
+    C_1 := psy[2];
+	//print "№3 ", Realtime(mytime);
+    // Считаем P_2
+    // Случай когда p_ - чётно
+    if ((p_+1) mod 2) eq 1 then
+		psy_1 := (psy[p_+shift] * psy[p_+shift]) mod psy[mass_l[i]+shift];
+        N_2 := (psy_1 * x * f - psy[p_] * psy[p_+1+shift]) mod psy[mass_l[i]+shift];
+        D_2 := (psy_1 * f) mod psy[mass_l[i]+shift];
+        M_2 := (psy[p_+2+shift] * psy[p_-1+shift] * psy[p_-1+shift] - psy[p_-2+shift] * psy[p_+1+shift] * psy[p_+1+shift]) mod psy[mass_l[i]+shift];
+        C_2 := (4 * psy_1 * psy[p_+shift] * f_2) mod psy[mass_l[i]+shift];
+    // Случай когда p_ - нечётно,
+    else
+        if p_ eq 1 then
+            N_2 := x;
+            D_2 := psy[1+shift];
+            M_2 := psy[1+shift];
+            C_2 := psy[1+shift];
+        else
+			D_2 := (psy[p_+shift] * psy[p_+shift]) mod psy[mass_l[i]+shift];
+            N_2 := (D_2 * x - psy[p_-1+shift] * psy[p_+1+shift] * f) mod psy[mass_l[i]+shift];
+            M_2 := (psy[p_+2+shift] * psy[p_-1+shift] * psy[p_-1+shift] - psy[p_-2+shift] * psy[p_+1+shift] * psy[p_+1+shift]) mod psy[mass_l[i]+shift];
+            C_2 := (4 * D_2 * psy[p_+shift]) mod psy[mass_l[i]+shift];
+        end if;
+    end if;
+    
+	//print "№4 ", Realtime(mytime);
+    // Проверяем равенство P_1 + P_2 == O и вычисляем точку P_4 = P_1 + P_2
+    // P_4 = P_1 + P_2 
+    // x_1 == x_2
+    if ((N_1 * D_2) mod psy[mass_l[i]+shift]) eq (N_2 mod psy[mass_l[i]+shift]) then
+        // y_1 == -y_2, в том числе случай когда y_1 = y_2 = 0
+        if ((M_1 * C_2) mod psy[mass_l[i]+shift]) eq (-M_2 mod psy[mass_l[i]+shift]) then
+            t[i] := 0;
+            i +:= 1;
+            continue;
+        // y_1 == y_2 != 0
+        else
+            a1 := 3 * (N_1 ^ 2) + a;
+			a2 := 4 * (M_1 ^ 2);
+			N_4 := (D_2 * ((a1 ^ 2) - N_1 * f * a2) - N_2 * f * a2) mod psy[mass_l[i]+shift];
+			D_4 := (a2 * f * D_2) mod psy[mass_l[i]+shift];
+			C_4 := (2 * M_1 * f * D_4) mod psy[mass_l[i]+shift];
+			M_4 := (- (a1 * (N_4 - N_1 * D_4) + C_4 * M_1)) mod psy[mass_l[i]+shift];
+        end if;
+    // x_1 != x_2
+    else
+        a1 := C_2 * M_1 - M_2;
+        a2 := N_1 * D_2 - N_2;
+		a3 := (C_2 * a2) ^ 2;
+        N_4 := (f * (a1^2) * (D_2^3) - (N_1 * D_2 + N_2) * a3) mod psy[mass_l[i]+shift];
+        D_4 := (a3 * D_2) mod psy[mass_l[i]+shift];
+		C_4 := (C_2 * D_4 * a2) mod psy[mass_l[i]+shift];
+        M_4 := (-(D_2 * a1 * (N_4 - N_1 * D_4) + M_1 * C_4)) mod psy[mass_l[i]+shift];
+    end if;
+
+	//print "№5 ", Realtime(mytime);
+    // P_3 = P_0
+    N_3 := N_0;
+    D_3 := D_0;
+    M_3 := M_0;
+    C_3 := C_0;
+
+    for k in [1 .. (l div 2)] do
+        if ((N_4 * D_3) mod psy[mass_l[i]+shift]) eq ((N_3 * D_4) mod psy[mass_l[i]+shift]) then
+            if ((M_4 * C_3) mod psy[mass_l[i]+shift]) eq ((M_3 * C_4) mod psy[mass_l[i]+shift]) then
+                t[i] := k;
+                break;
+            else
+                t[i] := mass_l[i] - k;
+                break;
+            end if;
+        end if;
+        // P_3 = P_3 + P_0 
+        // Флаг для точки в бесконечности, которой может получится P_3
+        z := 0;
+		//print "№6 ", Realtime(mytime);
+        if z eq 1 then // В этом случае P_3 = P_0
+            N_3 := N_0;
+            D_3 := D_0;
+            M_3 := M_0;
+            C_3 := C_0;
+        else  
+            // x_3 == x_0 
+            if ((N_0 * D_3) mod psy[mass_l[i]+shift]) eq (N_3 mod psy[mass_l[i]+shift]) then
+                // y_3 == -y_0, в том числе случай когда y_3 == y_0= 0
+                if ((M_0 * C_3) mod psy[mass_l[i]+shift]) eq ((-M_3) mod psy[mass_l[i]+shift]) then
+                    z := 1;
+                // y_3 == y_0 != 0
+                else
+                    a2 := D_3 * N_0 + N_3;
+                    lambda1 := (3 * (N_0 ^ 2) + a);
+                    lambda2 := 2 * M_0;
+					lambda2_2 := lambda2 * lambda2 * f;
+                    N_3_ := (lambda1 * lambda1 * D_3 - lambda2_2 * a2) mod psy[mass_l[i]+shift];
+                    D_3_ := (lambda2_2 * D_3) mod psy[mass_l[i]+shift];
+                    a1 := N_3_ - N_0 * D_3_;
+					C_3 := (f * lambda2 * D_3_) mod psy[mass_l[i]+shift];
+                    M_3 := (-(lambda1 * a1 + M_0 * C_3)) mod psy[mass_l[i]+shift];
+                    N_3 := N_3_;
+                    D_3 := D_3_;
+                end if;
+            // x_3 != x_0  
+            else
+                a1 := N_3 + N_0 * D_3;
+                lambda1 := (M_3 - M_0 * C_3) * D_3;
+                lambda2 := (N_3 - N_0 * D_3) * C_3;
+				lambda2_2 := lambda2 * lambda2;
+                N_3_ := (f * lambda1 * lambda1 * (D_3) - a1 * lambda2_2) mod psy[mass_l[i]+shift];
+                D_3_ := (lambda2_2 * D_3) mod psy[mass_l[i]+shift];
+                a2 := N_3_ * D_3 - N_3 * D_3_;
+				lambda2_3 := lambda2 * D_3_ * D_3;
+                M_3 := (-(lambda1 * C_3 * a2 + M_3 * lambda2_3)) mod psy[mass_l[i]+shift];
+                C_3 := (lambda2_3 * C_3)  mod psy[mass_l[i]+shift];
+                N_3 := N_3_;
+                D_3 := D_3_;
+            end if;
+        end if;
+		//print "№7 ", Realtime(mytime);
+    end for;
+
+    i +:= 1; 
+end while;
+
+t;
+mass_l;
+tt := ChineseRemainderTheorem(t, mass_l);
+m := 1;
+for l in mass_l do
+    m *:= l; 
+end for;
+if 2 * tt gt m then
+    tt -:= m;
+end if;
+if 2 * tt lt -m then
+    tt +:= m;
+end if;
+if (2 * tt eq -m) or (2 * tt eq m) then
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :(";
+end if;
+p + 1 - tt; // Порядок кривой
+print "Runtime sec: ", Realtime(mytime), " min: ", Realtime(mytime)/60;
+;
