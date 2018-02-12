@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-02-06T12:37:25
+# Project created by QtCreator 2018-02-13T02:14:33
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CryptoChat_Qt
+TARGET = CryptoChat
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,10 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    echoclient.cpp \
+    echoserver.cpp \
+    socketthreadbase.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    echoclient.h \
+    echoserver.h \
+    socketthreadbase.h
 
 FORMS += \
         mainwindow.ui

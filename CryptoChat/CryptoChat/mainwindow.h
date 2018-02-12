@@ -2,10 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QHostAddress>
 #include <windows.h>
-#include <QWindow>
-#include <QProcess>
 
 namespace Ui {
 class MainWindow;

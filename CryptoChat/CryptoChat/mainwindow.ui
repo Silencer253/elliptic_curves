@@ -40,8 +40,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>0</y>
+      <x>380</x>
+      <y>10</y>
       <width>151</width>
       <height>151</height>
      </rect>
@@ -54,7 +54,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="button_Listen">
        <property name="text">
         <string>Listen</string>
        </property>

@@ -33,7 +33,7 @@ public:
     QTextEdit *textEdit;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
-    QPushButton *pushButton_3;
+    QPushButton *button_Listen;
     QPushButton *pushButton;
     QPushButton *button_Connect;
     QLineEdit *lineEdit_IP;
@@ -56,17 +56,17 @@ public:
         textEdit->setReadOnly(true);
         layoutWidget = new QWidget(centralWidget);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(400, 0, 151, 151));
+        layoutWidget->setGeometry(QRect(380, 10, 151, 151));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_3 = new QPushButton(layoutWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        button_Listen = new QPushButton(layoutWidget);
+        button_Listen->setObjectName(QStringLiteral("button_Listen"));
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(button_Listen);
 
         pushButton = new QPushButton(layoutWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -100,7 +100,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Listen", nullptr));
+        button_Listen->setText(QApplication::translate("MainWindow", "Listen", nullptr));
         pushButton->setText(QApplication::translate("MainWindow", "Disconnect", nullptr));
         button_Connect->setText(QApplication::translate("MainWindow", "Connect", nullptr));
         lineEdit_IP->setInputMask(QString());

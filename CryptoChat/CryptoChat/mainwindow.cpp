@@ -23,6 +23,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_button_Connect_clicked()
 {
-    QString ipAddress = ui->lineEdit_IP->text();
-    QHostAddress addr(ipAddress);
+    // Сначала заблокировать кнопку Listen
+    //ui->button_Listen->setDisabled(1);
+
+    QString IP = ui->lineEdit_IP->text();
+
 }
