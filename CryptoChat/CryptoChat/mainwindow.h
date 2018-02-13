@@ -19,6 +19,8 @@ public:
 private slots:
     void on_button_Connect_clicked();
 
+    void on_button_Listen_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

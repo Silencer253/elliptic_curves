@@ -27,14 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     echoclient.cpp \
-    echoserver.cpp \
-    socketthreadbase.cpp
+    socketthreadbase.cpp \
+    server.cpp
 
 HEADERS += \
         mainwindow.h \
     echoclient.h \
-    echoserver.h \
-    socketthreadbase.h
+    socketthreadbase.h \
+    server.h
 
 FORMS += \
         mainwindow.ui
