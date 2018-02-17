@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Инициализация по-умолчанию
     ui->lineEdit_IP->setText("127.0.0.1");
     ui->lineEdit_Port->setText("6666");
-
 }
 
 MainWindow::~MainWindow()
